@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Snowstorm</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+// Create an empty array to store flakes
+let flakes = [];
+
+// Constant variables
+const FLAKE_SPEED = 1.1;
+const NUMBER_FLAKES = 30;
+const FLAKE_SIZE = 6;
+
+function setup() {
+	describe('Create a Snowstorm of random moving Points.');
+	createCanvas(400, 400);
+ 
+	// Create initial snowflakes
+	for (let i = 0; i < NUMBER_FLAKES; i++) {
+		createSnow();
+	}
+}
+
+// Begin Game Loop. Everything in here will loop at 60 FPS
+function draw() {
+  background(76, 142, 222);
+
+  updateSnow(flakes);
+  drawSnow(flakes);
+} // end Game Loop
+
+// ----------------------------------------
+// Create a single snowflake
+// ----------------------------------------
+function createSnow() {
+  flakes.push({
+    x: random(0, width),
+    y: random(0, height)
+  });
+}
+
+// ----------------------------------------
+// Update snowflake positions
+// ----------------------------------------
+function updateSnow(b) {
+  for (let i = 0; i < b.length; i++) {
+    b[i].y += FLAKE_SPEED;
+    b[i].x += random(-0.8, 0.8);
+
+    if (b[i].y > height) {
+      b[i].y = 0;
+      b[i].x = random(0, width);
+    }
+  }
+}
+
+// ----------------------------------------
+// Draw snowflakes
+// ----------------------------------------
+function drawSnow(b) {
+  stroke(255);
+  strokeWeight(FLAKE_SIZE);
+
+  for (let i = 0; i < b.length; i++) {
+    point(b[i].x, b[i].y);
+  }
+}
+
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

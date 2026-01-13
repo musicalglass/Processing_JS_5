@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Boolean</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+/** Press the square to make it flip between blue and white.
+ * <Description> Use a Boolean to flip something between 2 states. </Description>
+ */
+
+var SQUARE_SIZE = 50;
+var clickSquareX = 125;
+var clickSquareY = 125;
+
+var myBoolean = false;
+
+
+function setup() {
+	describe('A rectangle changes color when clicked to show the state has changed.');
+
+	createCanvas(400, 400);
+}
+
+draw = function() {
+    background(0);
+
+    // Check if mouse is inside square
+    if (mouseX >= clickSquareX &&
+        mouseX <= clickSquareX + SQUARE_SIZE &&
+        mouseY >= clickSquareY &&
+        mouseY <= clickSquareY + SQUARE_SIZE) {
+
+        if (myBoolean) {
+            fill(15, 7, 237); // blue
+        } else {
+            fill(255); // white
+        }
+    } 
+
+    rect(clickSquareX, clickSquareY, SQUARE_SIZE, SQUARE_SIZE);
+};
+
+mouseClicked = function(){ 
+    myBoolean = !myBoolean; // toggle
+};
+  
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

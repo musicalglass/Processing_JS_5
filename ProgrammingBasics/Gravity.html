@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Gravity</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+const gravity = 1;
+let velY = 0;
+let y = 20;
+let x = 200; 
+
+let clicked = false;
+
+function setup() {
+  createCanvas(400, 400);
+  textAlign(LEFT, TOP);
+  textSize(20);
+
+  // Prevent arrow keys from scrolling the page
+  window.addEventListener("keydown", (e) => {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+}
+
+function draw() {
+  background(255, 255, 100);
+
+  // Draw ball
+  fill(0, 0, 255);
+  noStroke();
+  ellipse(x, y, 10, 10);
+
+  // Gravity + motion
+  velY += gravity;
+  y += velY;
+
+  // Basic bounce off bottom (when NOT on paddle mode)
+  if (!clicked && y > 400) {
+    y = 399;
+    velY = -velY;
+  }
+
+  // Move left/right anytime
+  if (keyIsDown(LEFT_ARROW))  x -= 3;
+  if (keyIsDown(RIGHT_ARROW)) x += 3;
+
+  // Mouse click starts “paddle mode”
+  if (mouseIsPressed) {
+    clicked = true;
+    y = 295;
+  }
+
+  if (clicked) {
+    fill(0);
+    text("Press UP to jump", 20, 20);
+    text("Press LEFT/RIGHT to move", 20, 45);
+
+    // Paddle
+    rect(0, 300, 400, 10);
+
+    // Stop on paddle
+    if (y > 295) {
+      y = 295;
+      velY = 0;
+    }
+
+    // Jump
+    if (keyIsDown(UP_ARROW)) {
+      velY = -8;
+    }
+  }
+
+  // Keep ball on screen horizontally
+  x = constrain(x, 5, width - 5);
+}
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

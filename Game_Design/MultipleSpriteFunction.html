@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Multiple Sprite Function</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+// Array to store sprite coordinates
+let sprites = [];
+
+function setup() {
+	describe('Use an Array to Create, Update and Draw more than one Sprite at a time.');
+	createCanvas(400, 400);
+  // Create initial sprites
+  createSprite();
+
+  for (let i = 0; i < 3; i++) {
+    createSprite();
+  }
+}
+
+// ----------------------------------------
+// Begin Game Loop
+// ----------------------------------------
+function draw() {
+  background(0);
+
+  updateSprites(sprites);
+  drawSprites(sprites);
+}
+
+// ----------------------------------------
+// Click to add more sprites
+// ----------------------------------------
+function mousePressed() {
+  createSprite();
+}
+
+// ----------------------------------------
+// Create a new sprite at a random position
+// ----------------------------------------
+function createSprite() {
+  sprites.push({
+    x: random(10, width - 10),
+    y: random(10, height - 10)
+  });
+}
+
+// ----------------------------------------
+// Update sprite positions
+// ----------------------------------------
+function updateSprites(spriteArray) {
+  for (let i = 0; i < spriteArray.length; i++) {
+    spriteArray[i].y++;
+
+    if (spriteArray[i].y > height + 10) {
+      spriteArray[i].y = -10;
+    }
+  }
+}
+
+// ----------------------------------------
+// Draw sprites
+// ----------------------------------------
+function drawSprites(spriteArray) {
+  strokeWeight(2);
+  stroke(255, 255, 0);
+  fill(255, 0, 0);
+
+  for (let i = 0; i < spriteArray.length; i++) {
+    ellipse(spriteArray[i].x, spriteArray[i].y, 12, 12);
+  }
+}
+</script>
+
+</body>
+</html>

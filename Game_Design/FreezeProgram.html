@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Freeze the Program</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+// <Description> Freeze and Resume the Draw Loop </Description>
+
+let DOT_SPEED = 5.9;
+let DOT_WIDTH = 24;
+
+let dot_Position_X = 40;
+let dot_Direction = "forward";
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function mousePressed() {
+  noLoop();
+}
+
+function mouseReleased() {
+  loop();
+}
+
+function draw() {
+  background(0);
+
+  fill(255);
+  noStroke();
+  text("Click the screen to freeze the Game Loop", 80, 55);
+
+  // Draw the dot
+  stroke(255, 0, 0);
+  strokeWeight(DOT_WIDTH);
+  point(dot_Position_X, 200);
+
+  // Bounce logic
+  if (dot_Position_X > width - DOT_WIDTH / 2) {
+    dot_Direction = "reverse";
+  }
+
+  if (dot_Position_X < DOT_WIDTH / 2) {
+    dot_Direction = "forward";
+  }
+
+  if (dot_Direction === "forward") {
+    dot_Position_X += DOT_SPEED;
+  } else {
+    dot_Position_X -= DOT_SPEED;
+  }
+}
+
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

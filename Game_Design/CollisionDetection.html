@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Collision Detection Basics</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let Rect_X = 150;
+let Rect_Y = 160;
+let Rect_Width = 100;
+let Rect_Height = 60;
+
+function setup() {
+describe('Collision is True is Mouse is inside Rectangle.');
+  createCanvas(400, 400);
+  textSize(16);
+}
+
+// Begin Game Loop. Everything in here will loop at 60 FPS
+function draw() {
+  background(0); // Clear the Screen
+  fill(255);
+  strokeWeight(0);
+  
+  text("Greater than Left =", 15, 30);
+  if (mouseX > Rect_X) {
+    fill(0, 255, 0);
+    text("True", 160, 30);
+  } else {
+    fill(255, 0, 0);
+    text("False", 160, 30);
+  }
+
+  fill(255);
+  text("Less than Right =", 15, 50);
+  if (mouseX < Rect_X + Rect_Width) {
+    fill(0, 255, 0);
+    text("True", 160, 50);
+  } else {
+    fill(255, 0, 0);
+    text("False", 160, 50);
+  }
+
+  fill(255);
+  text("Greater than Top =", 15, 70);
+  if (mouseY > Rect_Y) {
+    fill(0, 255, 0);
+    text("True", 160, 70);
+  } else {
+    fill(255, 0, 0);
+    text("False", 160, 70);
+  }
+
+  fill(255);
+  text("Less than Bottom =", 15, 90);
+  if (mouseY < Rect_Y + Rect_Height) {
+    fill(0, 255, 0);
+    text("True", 160, 90);
+  } else {
+    fill(255, 0, 0);
+    text("False", 160, 90);
+  }
+
+  fill(255);
+  text("Are all 4 True?", 140, 280);
+  text("Collision Detected =", 100, 300);
+
+  if (
+    mouseX > Rect_X &&
+    mouseX < Rect_X + Rect_Width &&
+    mouseY > Rect_Y &&
+    mouseY < Rect_Y + Rect_Height
+  ) {
+    fill(0, 255, 0);
+    text("True", 250, 300);
+  } else {
+    fill(255, 0, 0);
+    text("False", 250, 300);
+  }
+
+  noStroke();
+  rect(Rect_X, Rect_Y, Rect_Width, Rect_Height);
+
+  stroke(255);
+  noCursor();
+strokeWeight(1);
+  // Custom cursor
+  point(mouseX, mouseY);
+  line(mouseX, mouseY - 14, mouseX, mouseY - 7);
+  line(mouseX, mouseY + 7, mouseX, mouseY + 14);
+  line(mouseX - 14, mouseY, mouseX - 7, mouseY);
+  line(mouseX + 7, mouseY, mouseX + 14, mouseY);
+} // end Game Loop
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

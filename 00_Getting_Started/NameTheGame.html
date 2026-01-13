@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Processing 5 Example</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let gameState = "Intro";
+
+const PADDLE_WIDTH = 60;
+const PADDLE_HEIGHT = 20;
+const PADDLE_TOP = 360;
+const BALL_SIZE = 20;
+const BALL_SPEED = 4;
+
+let playerScore = 0;
+let playerLives = 3;
+
+let paddleLeft;
+
+let numObjects = 1;
+let skeetSize = 30;
+
+let ballDirectionX = "right";
+let ballDirectionY = "down";
+let ballPositionX = 40;
+let ballPositionY = 200;
+
+// Skeet storage
+let skeets = [];
+
+function setup() {
+	describe('Simple paddle + ball + skeet game.');
+	createCanvas(400, 400);
+	textSize(18);
+}
+
+// ----------------------------------------
+// Main Loop
+// ----------------------------------------
+function draw() {
+  background(0);
+
+  switch (gameState) {
+    case "Intro":
+      fill(127, 0, 255);
+      text(
+        "Welcome to myGameName\n\nClick the Game Window to Begin",
+        66,
+        154
+      );
+
+      if (mouseIsPressed) {
+        createSkeets();
+        gameState = "Main";
+      }
+      break;
+
+    case "Main":
+      updateGame();
+
+      if (numObjects === 0) {
+        numObjects = 2;
+        createSkeets();
+        gameState = 1;
+      }
+
+      if (playerLives === 0) {
+        gameState = "GameOver";
+      }
+      break;
+
+    case 1:
+      updateGame();
+
+      if (numObjects === 0) {
+        numObjects = 3;
+        createSkeets();
+        gameState = 2;
+      }
+
+      if (playerLives === 0) {
+        gameState = "GameOver";
+      }
+      break;
+
+    case 2:
+      updateGame();
+
+      if (numObjects === 0) {
+        numObjects = 4;
+        createSkeets();
+        gameState = 3;
+      }
+
+      if (playerLives === 0) {
+        gameState = "GameOver";
+      }
+      break;
+
+    case 3:
+      updateGame();
+
+      if (numObjects === 0) {
+        numObjects = 4;
+        createSkeets();
+        gameState = 4;
+      }
+
+      if (playerLives === 0) {
+        gameState = "GameOver";
+      }
+      break;
+
+    default:
+      fill(255, 0, 0);
+      text(
+        "Game Over\n\nPress LEFT ARROW\nto start over",
+        90,
+        103
+      );
+
+      if (keyIsPressed && keyCode === LEFT_ARROW) {
+        playerLives = 3;
+        skeets = [];
+        numObjects = 1;
+        playerScore = 0;
+        createSkeets();
+        gameState = "Main";
+      }
+      break;
+  }
+
+  agentSmith();
+}
+
+// ----------------------------------------
+// Paddle
+// ----------------------------------------
+function updatePaddle() {
+  paddleLeft = mouseX - PADDLE_WIDTH / 2;
+}
+
+function drawPaddle() {
+  fill(127, 0, 255);
+  rect(paddleLeft, PADDLE_TOP, PADDLE_WIDTH, PADDLE_HEIGHT);
+}
+
+// ----------------------------------------
+// Ball
+// ----------------------------------------
+function updateBall() {
+  if (ballPositionX > 399 - BALL_SIZE / 2) {
+    ballDirectionX = "left";
+  }
+
+  if (ballPositionX < BALL_SIZE / 2) {
+    ballDirectionX = "right";
+  }
+
+  // Paddle collision
+  if (
+    ballPositionY > PADDLE_TOP - BALL_SIZE / 2 &&
+    ballPositionY < PADDLE_TOP + PADDLE_HEIGHT
+  ) {
+    if (
+      ballPositionX > paddleLeft &&
+      ballPositionX < paddleLeft + PADDLE_WIDTH
+    ) {
+      ballDirectionY = "up";
+    }
+  }
+
+  // Ball lost
+  if (ballPositionY > 420) {
+    playerLives--;
+    ballPositionY = 30;
+    ballDirectionY = "down";
+  }
+
+  // Ceiling
+  if (ballPositionY < BALL_SIZE / 2) {
+    ballDirectionY = "down";
+  }
+
+  // Apply movement
+  ballPositionX +=
+    ballDirectionX === "right" ? BALL_SPEED : -BALL_SPEED;
+  ballPositionY +=
+    ballDirectionY === "down" ? BALL_SPEED : -BALL_SPEED;
+}
+
+function drawBall() {
+  fill(127, 80, 255);
+  ellipse(ballPositionX, ballPositionY, BALL_SIZE, BALL_SIZE);
+}
+
+// ----------------------------------------
+// Skeets
+// ----------------------------------------
+function createSkeets() {
+  for (let i = 0; i < numObjects; i++) {
+    skeets.push({
+      x: random(10, 390),
+      y: random(10, 200),
+      color: color(random(255), random(255), random(255)),
+      collision: false
+    });
+  }
+}
+
+function drawSkeets() {
+  for (let i = 0; i < skeets.length; i++) {
+    fill(skeets[i].color);
+    ellipse(skeets[i].x, skeets[i].y, skeetSize, skeetSize);
+  }
+}
+
+function updateSkeets() {
+  for (let i = 0; i < skeets.length; i++) {
+    if (
+      dist(
+        skeets[i].x,
+        skeets[i].y,
+        ballPositionX,
+        ballPositionY
+      ) <
+      skeetSize / 2 + BALL_SIZE / 2
+    ) {
+      skeets[i].collision = true;
+    }
+  }
+}
+
+// Remove hit skeets
+function agentSmith() {
+  for (let i = skeets.length - 1; i >= 0; i--) {
+    if (skeets[i].collision) {
+      skeets.splice(i, 1);
+      playerScore++;
+      numObjects--;
+    }
+  }
+}
+
+// ----------------------------------------
+// Game Update
+// ----------------------------------------
+function updateGame() {
+  updateSkeets();
+  drawSkeets();
+
+  updateBall();
+  drawBall();
+
+  updatePaddle();
+  drawPaddle();
+
+  fill(255);
+  text("Score: " + playerScore, 40, 20);
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

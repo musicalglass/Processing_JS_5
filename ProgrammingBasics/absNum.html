@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>abs(num) ProcessingJS5</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+var x = -200;
+function setup() {
+describe('If a value goes into the negative, abs() flips it to positive.');
+createCanvas(400, 400);
+background(255);
+	// draw the axes
+	stroke(148, 148, 148);
+	line(0, 200, 400, 200);
+	line(200, 0, 200, 400);
+
+	strokeWeight(2);
+	stroke(0, 173, 23);
+}
+
+// Begin Game Loop
+draw = function(){
+    // this calculates the absolute value of x and makes it a positive value
+    var y = -abs(x);
+    point(x + 200, y + 200);
+
+    x += 5;
+}; // End Game Loop
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

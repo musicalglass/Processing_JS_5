@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Side Scroller</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+/* <Description> Create a continuous moving Background effect. </Description> */
+
+let fuzzy;        // Flippy.png
+let grassyKnoll;  // grassy.jpg
+
+// Starting position of background tiles 1 and 2
+let turf1X = 0;
+let turf2X = 100;
+
+let movingUp = true;
+let fuzzyY = 410;
+
+// Keyboard state
+let keys = {};
+
+function preload() {
+  fuzzy = loadImage(
+    "https://raw.githubusercontent.com/musicalglass/Processing_JS_5/master/assets/Flippy.png"
+  );
+
+  grassyKnoll = loadImage(
+    "https://raw.githubusercontent.com/musicalglass/Processing_JS_5/master/assets/grassy.jpg"
+  );
+}
+
+function setup() {
+  createCanvas(400, 400);
+  imageMode(CORNER);
+}
+
+function keyPressed() {
+  keys[keyCode] = true;
+}
+
+function keyReleased() {
+  delete keys[keyCode];
+}
+
+function draw() {
+  // Optional: clear screen (your original relies on full redraw via images)
+  background(0);
+
+  // Check for Arrow keys and update position
+  if (keys[LEFT_ARROW]) {
+    turf1X--;
+    turf2X--;
+  }
+  if (keys[RIGHT_ARROW]) {
+    turf1X++;
+    turf2X++;
+  }
+
+  // Make Flippy move up and down while moving left/right
+  if (keys[RIGHT_ARROW] || keys[LEFT_ARROW]) {
+    if (movingUp === true) {
+      fuzzyY -= 3;
+    } else {
+      fuzzyY += 3;
+    }
+    if (fuzzyY < 380) movingUp = false;
+    if (fuzzyY > 400) movingUp = true;
+  }
+
+  // Reset background tiles if they go offscreen
+  if (turf1X > 100) turf1X -= 200;
+  if (turf1X < -100) turf1X += 200;
+  if (turf2X > 100) turf2X -= 200;
+  if (turf2X < -100) turf2X += 200;
+
+  // --- Draw background tiles (scaled up) ---
+  push();
+  scale(4, 4);
+  image(grassyKnoll, turf1X, -54);
+  image(grassyKnoll, turf2X, -54);
+  pop();
+
+  // --- Draw sprite (scaled down) ---
+  push();
+  scale(0.6, 0.6);
+  image(fuzzy, 280, fuzzyY);
+  pop();
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

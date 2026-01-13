@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Getting Hit</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+//<Description> Use an Array to create multiple Game objects with collision detection. </Description>
+
+var thingies = []; // Things to Catch or Avoid, depending
+
+// Declare operatorVariables 
+var numThingies = 10;     // total "lives" of falling blocks remaining
+var paddleX = 160;        // IMPORTANT: init so collision math isn't using undefined
+var hitCounter = 0; 
+
+// Declare CONSTANT_VARIABLES
+var PADDLE_WIDTH = 80; 
+var PADDLE_HEIGHT = 16; 
+var PADDLE_Y = 360; 
+var THINGIE_SPEED = 1; 
+var THINGIE_SIZE = 20; 
+var MAX_NUM_THINGIES = 2; 
+
+
+function setup() {
+describe('Objects fall and add 1 to score when they collide with paddle.');
+  createCanvas(400, 400);
+  textSize(22);
+  // Populate game with MAX_NUM_THINGIES before we start
+for (var i = 0; i < MAX_NUM_THINGIES; i++) {
+		createThingie();
+	}
+}
+
+// Begin Game Loop
+draw = function () {
+    background(0);
+    fill(255);
+
+    textSize(20);
+    textAlign(LEFT, BASELINE);   // make it explicit (KA can be picky)
+    text("Collisions: " + hitCounter, 18, 40); 
+
+    // Update Player first (so paddleX is always valid before collision checks)
+    if (numThingies > 0) {
+        paddleX = mouseX - PADDLE_WIDTH / 2;
+    }
+
+    // Add more thingies as necessary
+    if (thingies.length < MAX_NUM_THINGIES) {
+        if (numThingies >= MAX_NUM_THINGIES) {
+            createThingie();
+        }
+    }
+
+    // Update + draw thingies (iterate backwards because we splice)
+    for (var t = thingies.length - 1; t >= 0; t--) {
+
+        // Paddle collision (rectMode is CORNER by default, so this is correct)
+        var hit =
+            (thingies[t].x < paddleX + PADDLE_WIDTH) &&
+            (thingies[t].x + thingies[t].width > paddleX) &&
+            (thingies[t].y < PADDLE_Y + PADDLE_HEIGHT) &&
+            (thingies[t].y + thingies[t].height > PADDLE_Y);
+
+        if (hit) {
+            thingies.splice(t, 1);
+            numThingies--;
+            hitCounter++;
+            continue;
+        }
+
+        // Offscreen
+        if (thingies[t].y > 420) {
+            thingies.splice(t, 1);
+            numThingies--;
+            continue;
+        }
+
+        // Move
+        thingies[t].y += THINGIE_SPEED;
+
+        // Draw
+        strokeWeight(3);
+        stroke(153, 0, 255);
+        fill(255, 166, 0);
+        rect(thingies[t].x, thingies[t].y, thingies[t].width, thingies[t].height);
+    }
+
+    // Draw Player
+    noStroke();
+    fill(124, 0, 255);
+    rect(paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+    // Game over
+    if (numThingies <= 0) {
+        fill(255, 0, 0);
+        textSize(24);
+        textAlign(CENTER, CENTER);
+
+        if (hitCounter < 10) {
+            text("Game Over", 200, 165);
+        } else {
+            text("You have collided with\nall the rectangles", 200, 165);
+        }
+    }
+};
+
+var createThingie = function () {
+    thingies.push({
+        x: random(10, 390),
+        y: random(-400, -10),
+        width: THINGIE_SIZE,
+        height: THINGIE_SIZE,
+        collision: false
+    });
+}; 
+
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

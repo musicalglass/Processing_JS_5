@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>HexaflexaKaleidoscope</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let angle = 0;
+let radius = 70;
+
+function setup() {
+describe('A Kaleidoscope effect using rotating lines.');
+  createCanvas(400, 400);
+  angleMode(DEGREES);
+  noFill();
+  stroke(64, 0, 255);
+}
+
+function draw() {
+  background(0);
+
+  push();
+
+  // Move origin to center and scale
+  translate(width / 2, height / 2);
+  scale(0.8, 0.8);
+
+  // calculate coordinates using sin & cos
+  let x = sin(angle) * radius;
+  let y = cos(angle) * radius;
+
+  // Nested loops
+  for (let hexX = 1; hexX <= 300; hexX += 30) {
+    angle += 0.1;
+
+    for (let t = 1; t <= 44; t++) {
+      triangle(x * 4, 0, hexX, 24, t, y * 2);
+      rotate(60);
+    }
+  }
+
+  pop();
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

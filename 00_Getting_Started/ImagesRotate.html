@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Collision Detection using Radius</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+// <Description> Transform multiple images using Matrix. </Description>
+
+let samRotation = 0;
+let samX = 290;
+let samY = 150;
+let samScaleX = 1.0;
+let samScaleY = 1.0;
+
+let pinkRotation = 0;
+let pinkX = 118;
+let pinkY = 260;
+let pinkScaleX = 1.0;
+let pinkScaleY = 1.0;
+
+// Game Assets
+let spunkySam;
+let mrPink;
+
+function preload() {
+  spunkySam = loadImage(
+    "https://raw.githubusercontent.com/musicalglass/Processing_JS_5/master/assets/Flippy.png"
+  );
+  mrPink = loadImage(
+    "https://raw.githubusercontent.com/musicalglass/Processing_JS_5/master/assets/low_res_drone.jpg"
+  );
+}
+
+function setup() {
+  createCanvas(400, 400);
+  angleMode(DEGREES);     // match Khan-style rotation increments
+  imageMode(CORNER);      // default, just being explicit
+}
+
+function draw() {
+  background(0);
+
+  // Update Variables
+  samRotation++;
+  pinkRotation--;
+
+  // ---- Sam ----
+  push();
+  translate(samX, samY);
+  rotate(samRotation);
+  scale(samScaleX, samScaleY);
+
+  // Keep your offsets (these depend on the art)
+  image(spunkySam, -60, -82);
+  pop();
+
+  // ---- Pink ----
+  push();
+  translate(pinkX, pinkY);
+  rotate(pinkRotation);
+  scale(pinkScaleX, pinkScaleY);
+
+  image(mrPink, -70, -70);
+  pop();
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

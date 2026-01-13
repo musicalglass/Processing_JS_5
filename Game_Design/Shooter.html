@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Hitting Things with Projectiles - Shooter</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+var BULLET_SPEED = 12.0;
+
+var bullets = [];   // projectiles
+var skeets  = [];   // targets
+
+var SKEETS_NUM   = 4;
+var maxNumSkeets = 2;
+
+var paddlePos = 160;
+var score = 0;
+
+
+function setup() {
+  createCanvas(400, 400);
+  textSize(22);
+}
+
+// ----------------------------------------------------
+// Main Loop
+// ----------------------------------------------------
+draw = function () {
+    noStroke();
+    fill(8, 36, 5, 85);      // motion blur background
+    rect(0, 0, 400, 400);
+
+    if (SKEETS_NUM > 0) {
+        updateBullets(bullets);
+        updateSkeets();
+
+        // keep some skeets onscreen
+        if (SKEETS_NUM > 1 && skeets.length < maxNumSkeets) {
+            createSkeet();
+        }
+
+        paddlePos = mouseX - 40;
+    }
+
+    drawBullets(bullets);
+    drawSkeets();
+
+    // Paddle
+    noStroke();
+    fill(124, 0, 255);
+    rect(paddlePos, 356, 80, 16);
+
+    // Score UI
+    fill(255);
+    text("Score: " + score, 18, 40);
+
+    // Game over
+    if (SKEETS_NUM <= 0) {
+        fill(255, 0, 0);
+        text("Game Over", 96, 200);
+    }
+};
+
+// ----------------------------------------------------
+// Fire bullet
+// ----------------------------------------------------
+mouseClicked = function () {
+    bullets.push({
+        x: mouseX,
+        y: 356
+    });
+};
+
+// ----------------------------------------------------
+// Bullets (iterate BACKWARDS when splicing)
+// ----------------------------------------------------
+var updateBullets = function (b) {
+    for (var i = b.length - 1; i >= 0; i--) {
+        b[i].y -= BULLET_SPEED;
+        if (b[i].y < 40) {
+            b.splice(i, 1);
+        }
+    }
+};
+
+// ----------------------------------------------------
+// Create targets
+// Note: using rectMode(CENTER) makes collision easier
+// ----------------------------------------------------
+var createSkeet = function () {
+    skeets.push({
+        x: random(20, 380),
+        y: random(40, 200),
+        w: 20,
+        h: 20
+    });
+};
+
+// ----------------------------------------------------
+// Collision + remove BOTH bullet and skeet
+// Iterate backwards for safe splicing
+// ----------------------------------------------------
+var updateSkeets = function () {
+    if (!bullets.length || !skeets.length) { return; }
+
+    // check each skeet against each bullet
+    for (var i = skeets.length - 1; i >= 0; i--) {
+
+        var left   = skeets[i].x - skeets[i].w / 2;
+        var right  = skeets[i].x + skeets[i].w / 2;
+        var top    = skeets[i].y - skeets[i].h / 2;
+        var bottom = skeets[i].y + skeets[i].h / 2;
+
+        for (var j = bullets.length - 1; j >= 0; j--) {
+
+            if (bullets[j].x > left &&
+                bullets[j].x < right &&
+                bullets[j].y > top &&
+                bullets[j].y < bottom) {
+
+                // hit!
+                score++;
+                SKEETS_NUM--;
+
+                // remove bullet + skeet
+                bullets.splice(j, 1);
+                skeets.splice(i, 1);
+
+                // stop checking this skeet (it's gone)
+                break;
+            }
+        }
+    }
+};
+
+// ----------------------------------------------------
+var drawBullets = function (b) {
+    strokeWeight(1);
+    stroke(255, 0, 0);
+    fill(255, 255, 0);
+
+    for (var i = 0; i < b.length; i++) {
+        ellipse(b[i].x, b[i].y, 7, 7);
+    }
+};
+
+var drawSkeets = function () {
+    strokeWeight(3);
+    stroke(153, 0, 255);
+    fill(255, 166, 0);
+
+    rectMode(CENTER);
+    for (var i = 0; i < skeets.length; i++) {
+        rect(skeets[i].x, skeets[i].y, skeets[i].w, skeets[i].h);
+    }
+    rectMode(CORNER); // restore default so other rects behave normally
+};
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

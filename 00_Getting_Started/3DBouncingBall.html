@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Processing JS 5 Examples</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+
+let bufferedImage;
+
+let angle = 0;
+let radius = 40;
+let bounceHeight = 3.5;
+
+let ballX = 0;
+let ballY = 0;
+let ballWidth = 1;
+let ballHeight = 1;
+
+let shadowWidth = 90;
+let shadowHeight = 25;
+let shadowAlpha = 100;
+
+let sphereRadius = 98;
+let centerX = 50;
+let centerY = 50;
+
+function setup() {
+describe('Passing Arguments to a Function.');
+createCanvas(400, 400);
+  angleMode(RADIANS);
+
+  // Create graphics buffer
+  bufferedImage = createGraphics(100, 100);
+  bufferedImage.clear();
+
+  // Draw sphere ONCE into buffer
+  for (let i = 0; i <= 1.6; i += 0.005) {
+    let sinP = sin(i) * sphereRadius;
+    let cosP = cos(i) * sphereRadius;
+
+    bufferedImage.noFill();
+    bufferedImage.strokeWeight(1);
+    bufferedImage.stroke(sinP, sinP * 2, 244);
+    bufferedImage.ellipse(centerX, centerY, cosP, cosP);
+  }
+}
+
+// Begin Game Loop. Everything in here will loop at 60 FPS
+function draw() {
+  translate(200, 300);
+
+  // Motion blur background
+  noStroke();
+  fill(0, 0, 0, 200);
+  rect(-200, -300, 400, 400);
+
+  // Gradient floor
+  strokeWeight(4);
+  for (let i = 25; i > -10; i--) {
+    stroke(200, 20, 255, i * 2 + 40);
+    line(-200, i * 4, 200, i * 4);
+  }
+
+  // Animate
+  angle += 0.08;
+  angle %= 6.4;
+
+  let cosX = cos(angle) * radius;
+  ballY = -(pow(cosX, 2) / bounceHeight);
+
+  // Shadow
+  shadowAlpha = map(ballY, -450, 0, 20, 100);
+  noStroke();
+  fill(0, 0, 0, shadowAlpha);
+  ellipse(25, 20, shadowWidth - shadowAlpha / 8, shadowHeight);
+
+  push();
+
+  scale(0.6);
+
+  if (ballY > -50) {
+    ballWidth  = map(ballY, -50, 0, 1.0, 1.5);
+    ballHeight = map(ballY, -50, 0, 1.0, 0.5);
+    ballX      = map(ballY, -50, 0, 0, -20);
+    shadowWidth  = map(ballY, -50, 0, 90, 100);
+    shadowHeight = map(ballY, -50, 0, 25, 30);
+  } else {
+    ballWidth = 1.0;
+    ballHeight = 1.0;
+    shadowWidth = 90;
+    shadowHeight = 25;
+  }
+
+  scale(ballWidth, ballHeight);
+
+  image(bufferedImage, ballX, ballY);
+
+  pop();
+} // end Game Loop
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

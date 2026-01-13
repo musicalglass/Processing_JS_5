@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>HexaSnowflake</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+
+
+function setup() {
+  createCanvas(400, 400);
+	/*<Description> Draw Snowflake using For Loop. </Description>*/
+
+	background(50, 0, 70); 
+
+	// Translate World Center from 0,0 to Screen Center
+	translate(200,200); 
+	angleMode(DEGREES);	// change default radians to degrees 
+	scale(1.4,1.4);
+
+	stroke(158, 158, 255); 
+	// Use a For Loop to revolve 6 iterations
+	for(var spokes = 0; spokes < 6; spokes++){ 
+		strokeWeight(10);
+		line(0,5,0,120); // Spoke
+		strokeWeight(8); 
+		line(0,23,17,32); // lower branches
+		line(0,23,-17,32); 
+		line(0,48,21,76); // mid branches
+		line(0,48,-21,76); 
+		strokeWeight(6);
+		line(0,80,12,106); // top branches
+		line(0,80,-12,106); 
+		rotate(60); // Revolve around 0,0
+	} 
+
+	// Needed if you intend to do more Transformations
+	// resetMatrix();  
+}
+
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

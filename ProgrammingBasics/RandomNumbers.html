@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Random Numbers</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+var randNumb;
+
+function setup() {
+describe('Example of generating a Random Number and different methods of rounding the value.');
+frameRate(1);
+createCanvas(400, 400);
+}
+
+draw = function(){
+	background(0);
+	fill(255);
+	textSize(24);
+	textAlign(CENTER,0);
+
+	// Assign Variable a Random Number from 0 to 10
+	randNumb = random(10); 
+	// Print it to the screen
+	text(randNumb,200,140);
+
+	// Round off the Decimal from Variable
+	text(round(randNumb),200,170);
+
+	// Round off to the Lowest Whole Number
+	text(floor(randNumb),200,200);
+
+	// Round off to the Highest Whole Number
+	text(ceil(randNumb),200,230);
+
+	// Assign a Random whole Number between 5 and 10
+	randNumb = round(random(5,10)); 
+	// Print it
+	text(randNumb, 200, 260);
+	text(randNumb*12, 200, 290); // Convert Feet into Inches
+};
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

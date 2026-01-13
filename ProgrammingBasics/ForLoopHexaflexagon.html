@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>For Loop Hexaflexagon</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+
+function setup() {
+	describe('Draw 6 Triangles Using For Loop.');
+
+	createCanvas(400, 400);
+
+	background(50, 0, 70); 
+	stroke(255, 255, 25, 128);
+	strokeWeight(3);  
+	fill(255, 0, 0);
+
+	/* Draw Triangle at Original Coordinates
+	Triangle's top corner is at 0,0 */
+	triangle(0,0,0,48,40,26); 
+
+	// Translate World Center from 0,0 to Screen Center
+	translate(200,200); 
+	
+	angleMode(DEGREES);	// change default radians to degrees 
+
+	for(var triangles = 0; triangles < 6; triangles++){   
+		triangle(0,0,0,48,40,26); 
+		rotate(60); // Rotate around 0,0
+	} 
+
+	// Needed if you intend to do more Transformations
+	// resetMatrix();  
+}
+  
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

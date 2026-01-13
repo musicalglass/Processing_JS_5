@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Numerical Input</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+let numString = "";
+let tempString = [];
+let displayNum = null;
+
+function setup() {
+  describe("Enter numerical input and print to screen");
+  createCanvas(400, 400);
+
+  textAlign(CENTER, TOP);
+  textSize(20);
+}
+
+// Collect digits on key release
+function keyReleased() {
+  // key is the character typed, like "0".."9"
+  if (key >= "0" && key <= "9") {
+    tempString.push(key);            // store the digit as a character
+    numString = tempString.join(""); // rebuild string
+  }
+
+  // keyCode is for special keys like ENTER
+  if (keyCode === ENTER) {
+    // Convert string to number (integer)
+    displayNum = parseInt(numString, 10);
+
+    // Clear for next input
+    tempString = [];
+    numString = "";
+  }
+}
+
+function draw() {
+  background(255);
+
+  fill(0);
+  text("Type a number\nand press Enter.", 200, 100);
+
+  // Display current input
+  text(numString, 200, 150);
+
+  // Display final integer result
+  if (displayNum !== null) {
+    text(displayNum, 200, 180);
+  }
+}
+
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

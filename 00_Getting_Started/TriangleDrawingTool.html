@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Triangle Drawing Tool</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let centerOffset = 0;
+let offsetX = 0;
+let offsetY = 0;
+
+offsetX += centerOffset;
+offsetY += centerOffset;
+
+let lineThickness = 2;
+let which = 0;
+
+let dragCircles = [];
+
+function setup() {
+describe('Drag points to draw a triangle and copy the code form the Console.');
+  createCanvas(400, 400);
+  textAlign(LEFT, TOP);
+
+  createCircle(200, 120);
+  createCircle(250, 212);
+  createCircle(150, 212);
+}
+
+// ----------------------------------------
+// Begin Game Loop
+// ----------------------------------------
+function draw() {
+  background(255);
+
+  push();
+  translate(offsetX, offsetY);
+
+  drawGrid();
+  displayText();
+  drawDraggableCircles();
+
+  fill(0, 0, 255, 60);
+  strokeWeight(lineThickness);
+
+  triangle(
+    dragCircles[0].x, dragCircles[0].y,
+    dragCircles[1].x, dragCircles[1].y,
+    dragCircles[2].x, dragCircles[2].y
+  );
+
+  pop();
+}
+
+
+// ----------------------------------------
+// Create draggable control points
+// ----------------------------------------
+function createCircle(cX, cY) {
+  dragCircles.push({
+    x: cX,
+    y: cY,
+    circleSize: 12
+  });
+}
+
+// ----------------------------------------
+function drawDraggableCircles() {
+  strokeWeight(1);
+
+  for (let i = 0; i < dragCircles.length; i++) {
+
+    if (
+      dist(
+        dragCircles[i].x,
+        dragCircles[i].y,
+        mouseX - offsetX,
+        mouseY - offsetY
+      ) < dragCircles[i].circleSize / 1.5 &&
+      (!which || which === i + 1)
+    ) {
+      fill(128, 0, 255, 120);
+    } else {
+      noFill();
+    }
+
+    ellipse(
+      dragCircles[i].x,
+      dragCircles[i].y,
+      dragCircles[i].circleSize,
+      dragCircles[i].circleSize
+    );
+  }
+}
+
+// ----------------------------------------
+function mouseDragged() {
+
+  if (!which) {
+    for (let i = 0; i < dragCircles.length; i++) {
+      if (
+        dist(
+          dragCircles[i].x,
+          dragCircles[i].y,
+          mouseX - offsetX,
+          mouseY - offsetY
+        ) < dragCircles[i].circleSize / 1.5
+      ) {
+        which = i + 1;
+        break;
+      }
+    }
+  } else {
+    dragCircles[which - 1].x = mouseX - offsetX;
+    dragCircles[which - 1].y = mouseY - offsetY;
+  }
+
+  let s =
+    "Copy text here :)\n\n" +
+    "triangle(" +
+    dragCircles[0].x + ", " + dragCircles[0].y + ", " +
+    dragCircles[1].x + ", " + dragCircles[1].y + ", " +
+    dragCircles[2].x + ", " + dragCircles[2].y +
+    ");\n";
+
+  console.log(s);
+}
+
+// ----------------------------------------
+function mouseReleased() {
+  which = 0;
+}
+
+// ----------------------------------------
+function displayText() {
+  textSize(12);
+  fill(0, 0, 0, 100);
+
+  // Y Axis
+  text("Y", 5, 50);
+  text("100", 5, 100); text("150", 5, 150); text("200", 5, 200);
+  text("250", 5, 250); text("300", 5, 300); text("350", 5, 350);
+
+  // X Axis
+  text("X", 50, 15);
+  text("100", 100, 15); text("150", 150, 15); text("200", 200, 15);
+  text("250", 250, 15); text("300", 300, 15); text("350", 350, 15);
+
+  stroke(0);
+}
+
+// ----------------------------------------
+function drawGrid() {
+  strokeWeight(1);
+  stroke(0, 0, 0, 160);
+
+  // Crosshair
+  line(0, -400, 0, 400);
+  line(-400, 0, 400, 0);
+
+  // Grid
+  stroke(0, 100, 255, 75);
+  for (let i = -400; i < 400; i += 10) {
+    line(i, -400, i, 400);
+    line(-400, i, 400, i);
+  }
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

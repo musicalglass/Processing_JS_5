@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Collide with Things - Gobble Game</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+var score = 0;
+var munchNum = 5;
+var gameState = "Intro";
+
+var player = {
+    x: 200,
+    y: 200,
+    size: 20,
+    speed: 4
+};
+
+
+// ----------------------------------------
+// Keyboard
+// ----------------------------------------
+var keys = [];
+keyPressed = function () { keys[keyCode] = true; };
+keyReleased = function () { delete keys[keyCode]; };
+
+// ----------------------------------------
+// Player
+// ----------------------------------------
+var updatePlayer = function () {
+    if (keys[LEFT_ARROW])  { player.x -= player.speed; }
+	if (keys[RIGHT_ARROW]) { player.x += player.speed; }
+	if (keys[UP_ARROW])    { player.y -= player.speed; }
+	if (keys[DOWN_ARROW])  { player.y += player.speed; }
+
+
+    // keep player on screen
+    player.x = constrain(player.x, player.size/2, 400 - player.size/2);
+    player.y = constrain(player.y, player.size/2, 400 - player.size/2);
+};
+
+var drawPlayer = function () {
+    noStroke();
+    fill(0, 255, 0);
+    ellipse(player.x, player.y, player.size, player.size);
+};
+
+// ----------------------------------------
+// Munchies
+// ----------------------------------------
+var munchies = [];
+
+var createMunchy = function (x, y) {
+    munchies.push({ x: x, y: y, size: 12 });
+};
+
+var spawnWave = function () {
+    for (var i = 0; i < munchNum; i++) {
+        createMunchy(round(random(20, 380)), round(random(20, 380)));
+    }
+};
+
+var updateMunchies = function () {
+    // IMPORTANT: iterate backwards when splicing
+    for (var i = munchies.length - 1; i >= 0; i--) {
+        var m = munchies[i];
+        if (dist(player.x, player.y, m.x, m.y) < player.size/2 + m.size/2) {
+            score++;
+            munchies.splice(i, 1);
+        }
+    }
+
+    if (munchies.length === 0) {
+        munchNum++;
+        spawnWave();
+    }
+};
+
+var drawMunchies = function () {
+    strokeWeight(2);
+    stroke(255, 255, 0);
+    fill(255, 0, 0);
+    for (var i = 0; i < munchies.length; i++) {
+        var m = munchies[i];
+        ellipse(m.x, m.y, m.size, m.size);
+    }
+};
+
+function setup() {
+  createCanvas(400, 400);
+  textSize(22);
+}
+
+// ----------------------------------------
+// Main loop
+// ----------------------------------------
+draw = function () {
+
+    // Intro screen (and STOP there)
+    if (gameState === "Intro") {
+        background(0, 60, 255);
+        fill(255);
+        text("Use Arrow keys to Gobble Dots", 60, 107);
+        text("Click Screen to Begin", 100, 172);
+
+        if (mouseIsPressed) {
+            gameState = "play";
+        }
+        return; // <--- key: don't run gameplay while on intro
+    }
+
+    // Gameplay
+    background(0);
+
+    updateMunchies();
+    drawMunchies();
+
+    updatePlayer();
+    drawPlayer();
+
+    fill(255, 0, 0);
+    text("Score: " + score, 15, 30);
+};
+
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

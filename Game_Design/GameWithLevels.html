@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Game with Levels Template</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+/** <Description> Template. </Description> */
+
+let gameState = "Intro"; // The Starting State of the Game
+
+// Just a sample Function to generate Random Sprites
+let sprites = [];
+
+function createSprite() {
+  sprites.push({
+    x: random(10, 390),
+    y: random(10, 390)
+  });
+}
+
+function drawSprites() {
+  strokeWeight(2);
+  stroke(255, 255, 0);
+  fill(255, 0, 0);
+
+  for (let i = 0; i < sprites.length; i++) {
+    ellipse(sprites[i].x, sprites[i].y, 12, 12);
+  }
+}
+
+// --- input latch: advance one state per key release ---
+let advanceQueued = false;
+
+function keyReleased() {
+  advanceQueued = true;
+}
+
+function setup() {
+  createCanvas(400, 400);
+  textAlign(CENTER, CENTER);
+}
+
+function draw() {
+  background(166, 166, 255); // default background
+
+  // Non Level Dependent Game Code
+  drawSprites();
+
+  switch (gameState) {
+    case "Intro":
+      textSize(32);
+      fill(0);
+      text("myGameName", 200, 80);
+      text("by yourNameHere", 200, 300);
+
+      noStroke();
+      fill(255);
+      ellipse(200, 183, 20, 20);
+      rect(100, 120, 12, 80);
+      rect(300, 160, 12, 80);
+
+      textSize(24);
+      fill(0);
+      text("click to begin", 200, 350);
+
+      if (mouseIsPressed) {
+        gameState = 1;
+        createSprite();
+      }
+      break;
+
+    case 1:
+      textSize(24);
+      fill(0);
+      text("Level 1\nPress Any Key to go\nto next Level", 200, 200);
+
+      if (advanceQueued) {
+        advanceQueued = false;
+        createSprite();
+        gameState += 1;
+      }
+      break;
+
+    case 2:
+      textSize(24);
+      fill(0);
+      text("Level 2\nPress another Key", 200, 200);
+
+      if (advanceQueued) {
+        advanceQueued = false;
+        createSprite();
+        gameState += 1;
+      }
+      break;
+
+    case 3:
+      textSize(24);
+      fill(0);
+      text("etc.", 200, 200);
+
+      if (advanceQueued) {
+        advanceQueued = false;
+        createSprite();
+        gameState += 1;
+      }
+      break;
+
+    case 4:
+      textSize(24);
+      fill(0);
+      text("etc., etc.", 200, 200);
+
+      if (advanceQueued) {
+        advanceQueued = false;
+        createSprite();
+        gameState += 1;
+      }
+      break;
+
+    default:
+      sprites.length = 0;
+      background(0);
+      textSize(48);
+      fill(255);
+      text("Game Over", 200, 200);
+      break;
+  }
+}
+
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

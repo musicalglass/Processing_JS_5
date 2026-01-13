@@ -1,25 +1,53 @@
 <!DOCTYPE html>
-<html lang="">
-
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>p5.js example</title>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-      background-color: #999999;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <title>Image Transforms</title>
   <script src="../p5.min.js"></script>
-  <!-- <script src="../addons/p5.sound.js"></script> -->
-  <script src="ImageTransforms.js"></script>
 </head>
+<body bgcolor="#999999">
 
-<body>
-  <main>
-  </main>
+<script>
+// Transformation variables
+let translateX = 200;
+let translateY = 300;
+let scaleX = 0.5;   // Try a negative number!
+let scaleY = 0.5;
+let rotateDegrees = 0;
+
+// Image cannot be local. Must come from a server. Using GitHub works fine.
+function preload() {
+  my_image = loadImage("https://raw.githubusercontent.com/musicalglass/KAOS/master/assets/KAOS_drone.jpg");
+}
+
+function setup() {
+describe('Use matrix transformations to manipulate an image.');
+
+createCanvas(400, 600);
+}
+
+function draw() {
+  background(255);
+
+  push(); // ---- BEGIN TRANSFORM SPACE ----
+
+  // Apply transformations
+  translate(translateX, translateY);
+  scale(scaleX, scaleY);
+  rotate(rotateDegrees);
+
+  // Draw image centered at local (0,0)
+  // Image is 512 X 768
+  image(my_image, -256, -384);
+
+  pop(); // ---- END TRANSFORM SPACE ----
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
 </body>
-
 </html>

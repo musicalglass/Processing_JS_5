@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>6 Frame Walk Cycle</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let frameNum = 3;
+let Action = 1;
+
+// ----------------------------------------
+// Operator Variables
+// ----------------------------------------
+let pelvisTranslateX = 200;
+let pelvisTranslateY = 200;
+
+let leftLegTranslateX = 0;
+let leftLegTranslateY = 0;
+let leftLegRotate = 0;
+let leftShinRotate = 0;
+let leftFootRotate = 0;
+
+let rightLegTranslateX = 0;
+let rightLegTranslateY = 0;
+let rightLegRotate = 0;
+let rightShinRotate = 0;
+let rightFootRotate = 0;
+
+// ----------------------------------------
+// Setup
+// ----------------------------------------
+function setup() {
+describe('An animated walk cycle using 6 frames');
+  createCanvas(400, 400);
+  frameRate(6);
+  angleMode(DEGREES);
+}
+
+// ----------------------------------------
+// Draw Loop
+// ----------------------------------------
+function draw() {
+  background(255);
+
+  if (Action) frameNum++;
+  if (frameNum === 7) frameNum = 1;
+
+  // ==================================================
+  // Character Rig (Hierarchy Root = Pelvis)
+  // ==================================================
+  push();
+  translate(pelvisTranslateX, pelvisTranslateY);
+
+  // ------------------------------------
+  // Right Leg
+  // ------------------------------------
+  strokeWeight(20);
+  push();
+  translate(rightLegTranslateX, rightLegTranslateY);
+  rotate(rightLegRotate);
+  line(0, 0, 0, 60);
+
+  // Shin
+  translate(0, 60);
+  rotate(rightShinRotate);
+  line(0, 0, 0, 54);
+
+  // Foot
+  strokeWeight(12);
+  translate(0, 60);
+  rotate(rightFootRotate);
+  triangle(-58, 20, 0, -6, 14, 20);
+  pop();
+
+  // ------------------------------------
+  // Pelvis
+  // ------------------------------------
+  strokeWeight(4);
+  ellipse(0, 0, 60, 52);
+
+  // ------------------------------------
+  // Left Leg
+  // ------------------------------------
+  strokeWeight(20);
+  push();
+  translate(leftLegTranslateX, leftLegTranslateY);
+  rotate(leftLegRotate);
+  line(0, 0, 0, 60);
+
+  // Shin
+  translate(0, 60);
+  rotate(leftShinRotate);
+  line(0, 0, 0, 54);
+
+  // Foot
+  strokeWeight(12);
+  translate(0, 60);
+  rotate(leftFootRotate);
+  triangle(-58, 20, 0, -6, 14, 20);
+  pop();
+
+  pop(); // END character rig hierarchy
+
+  // ==================================================
+  // UI
+  // ==================================================
+  noStroke();
+  fill(0);
+  textSize(32);
+  text("frame:", 24, 45);
+  text(frameNum, 122, 45);
+
+  // ==================================================
+  // Ground
+  // ==================================================
+  stroke(0);
+  strokeWeight(6);
+  line(0, 350, 400, 350);
+
+  // ==================================================
+  // Animation Frames
+  // ==================================================
+
+  // Frame 1 – Contact
+  if (frameNum === 1) {
+    pelvisTranslateY = 209;
+
+    leftLegTranslateX = 4;
+    leftLegTranslateY = 12;
+    leftLegRotate = -26;
+    leftShinRotate = -17;
+    leftFootRotate = 37;
+
+    rightLegTranslateX = -4;
+    rightLegTranslateY = 12;
+    rightLegRotate = 38;
+    rightShinRotate = -1;
+    rightFootRotate = 6;
+  }
+
+  // Frame 2 – Propel
+  if (frameNum === 2) {
+    pelvisTranslateY = 200;
+
+    leftLegTranslateX = 6;
+    leftLegRotate = -25;
+    leftShinRotate = -49;
+    leftFootRotate = -26;
+
+    rightLegRotate = 17;
+    rightShinRotate = -17;
+    rightFootRotate = 0;
+  }
+
+  // Frame 3 – Passing
+  if (frameNum === 3) {
+    pelvisTranslateY = 189;
+
+    leftLegTranslateX = 0;
+    leftLegTranslateY = 14;
+    leftLegRotate = 32;
+    leftShinRotate = -103;
+    leftFootRotate = 19;
+
+    rightLegRotate = 0;
+    rightShinRotate = 0;
+    rightFootRotate = 0;
+  }
+
+  // Frame 4 – Contact (Opposite)
+  if (frameNum === 4) {
+    pelvisTranslateY = 209;
+
+    leftLegTranslateX = -4;
+    leftLegRotate = 38;
+    leftShinRotate = -1;
+    leftFootRotate = 6;
+
+    rightLegTranslateX = 4;
+    rightLegRotate = -26;
+    rightShinRotate = -17;
+    rightFootRotate = 37;
+  }
+
+  // Frame 5 – Propel
+  if (frameNum === 5) {
+    pelvisTranslateY = 200;
+
+    leftLegTranslateX = -6;
+    leftLegRotate = 17;
+    leftShinRotate = -17;
+    leftFootRotate = 0;
+
+    rightLegRotate = -25;
+    rightShinRotate = -49;
+    rightFootRotate = -26;
+  }
+
+  // Frame 6 – Passing
+  if (frameNum === 6) {
+    pelvisTranslateY = 189;
+
+    rightLegTranslateX = 0;
+    rightLegTranslateY = 14;
+    rightLegRotate = 32;
+    rightShinRotate = -103;
+    rightFootRotate = 19;
+
+    leftLegRotate = 0;
+    leftShinRotate = 0;
+    leftFootRotate = 0;
+  }
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Collision Detection using Radius</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let circleX = 200;
+let circleY = 182;
+let circleSize = 57;
+
+// Image variable
+let flippy;
+
+function preload() {
+  // Load image from GitHub (RAW URL)
+  flippy = loadImage(
+    "https://raw.githubusercontent.com/musicalglass/Processing_JS_5/master/assets/Flippy.png"
+  );
+}
+
+function setup() {
+	describe('Collision is True is Mouse is inside Radius of circle.');
+	createCanvas(400, 400);
+	textSize(16);
+}
+
+function draw() {
+  background(0);
+
+  // ------------------------------------
+  // Draw scaled sprite
+  // ------------------------------------
+  push();
+  scale(0.44, 0.44);
+  image(flippy, 392, 348);
+  pop();
+
+  // ------------------------------------
+  // Collision radius circle
+  // ------------------------------------
+  stroke(0, 255, 230); // Light blue
+  noFill();
+  ellipse(circleX, circleY, circleSize, circleSize);
+
+  // ------------------------------------
+  // Collision test
+  // ------------------------------------
+  fill(255);
+  noStroke();
+  text("Collision Detected =", 96, 300);
+
+  if (dist(circleX, circleY, mouseX, mouseY) < circleSize / 2) {
+    fill(0, 255, 0);
+    text("True", 244, 300);
+  } else {
+    fill(255, 0, 0);
+    text("False", 244, 300);
+  }
+
+  // ------------------------------------
+  // Custom cursor
+  // ------------------------------------
+  noCursor();
+
+  stroke(255);
+  strokeWeight(1);
+
+  point(mouseX, mouseY);
+  line(mouseX, mouseY - 14, mouseX, mouseY - 7);
+  line(mouseX, mouseY + 7, mouseX, mouseY + 14);
+  line(mouseX - 14, mouseY, mouseX - 7, mouseY);
+  line(mouseX + 7, mouseY, mouseX + 14, mouseY);
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

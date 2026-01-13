@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Remove Array Entry</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+
+function setup() {
+	describe('Remove a single entry from an Array using splice() ');
+
+	createCanvas(400, 400);
+
+	var arraySize = 10; // Set the size of our Array
+
+	// Create an empty Array of whateverSize
+	var myArray = []; 
+
+	// Populate Array with corresponding numbers
+	// Cycle through each Array entry...
+	for (var i = 0; i <= arraySize; i++){ 
+		myArray[i] = i; // write the For Loop Variable into each
+	}
+
+	fill(0); // Set Text color
+	// Distance in pixels to next new line of Text
+	var lineWidth = 14; 
+
+	// Print the values onscreen
+	for (var i = 0; i <= arraySize; i++){ 
+	// Print each on new line, starting 100 pixels down
+		text(myArray[i], 100, i * lineWidth + 100); 
+	}
+
+	// Remove entry from Array
+	// Any number you like
+	var slotToRemove = 2;
+	// You are Terminated!!
+	myArray.splice(slotToRemove, 1);
+
+	// Print the new values to the screen
+	for (var i = 0; i <= arraySize; i++) { 
+		text(myArray[i], 230, i * lineWidth + 100); 
+	}
+}
+  
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

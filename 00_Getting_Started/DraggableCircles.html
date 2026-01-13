@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Draggable Circles Function</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+let dragCircles = [];
+let which = null;
+
+function setup() {
+describe('Points that can be dragged with a mouse.');
+  createCanvas(400, 400);
+
+  createCircle();
+  createCircle();
+}
+
+// Draw Loop
+function draw() {
+  background(255);
+  drawDraggableCircles();
+} // end Game Loop
+
+
+// Create a draggable circle
+function createCircle() {
+  dragCircles.push({
+    x: random(10, 390),
+    y: random(10, 390),
+    circleSize: 20
+  });
+}
+
+// Draw circles and highlight on hover
+function drawDraggableCircles() {
+  for (let i = 0; i < dragCircles.length; i++) {
+    if (
+      dist(
+        dragCircles[i].x,
+        dragCircles[i].y,
+        mouseX,
+        mouseY
+      ) < dragCircles[i].circleSize / 2
+    ) {
+      fill(255, 0, 0);
+    } else {
+      noFill();
+    }
+
+    ellipse(
+      dragCircles[i].x,
+      dragCircles[i].y,
+      dragCircles[i].circleSize,
+      dragCircles[i].circleSize
+    );
+  }
+}
+
+// Mouse Event
+function mousePressed() {
+  for (let i = 0; i < dragCircles.length; i++) {
+    if (
+      dist(
+        dragCircles[i].x,
+        dragCircles[i].y,
+        mouseX,
+        mouseY
+      ) < dragCircles[i].circleSize / 2
+    ) {
+      which = i; // "The One"
+      break;
+    }
+  }
+}
+
+function mouseDragged() {
+  if (which !== null) {
+    dragCircles[which].x = mouseX;
+    dragCircles[which].y = mouseY;
+  }
+}
+
+function mouseReleased() {
+  which = null;
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>WebGL</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+/* Left Drag  → Move X & Y
+ Right Drag → Zoom Z */
+
+var cube = {
+    x: 200,
+    y: 200,
+    z: 0,
+    rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+};
+
+var grfx3D;
+
+function setup() {
+describe('A draggable 3D rotating cube using WebGL.');
+    createCanvas(400, 400);
+
+    // Create 3D graphics buffer AFTER canvas exists
+    grfx3D = createGraphics(width, height, WEBGL);
+
+    try {
+        grfx3D.lights();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+function draw() {
+    background(0);
+
+    // Draw normal 2D rectangle
+    fill(255, 255, 0);
+    rect(100, 100, 80, 80);
+
+    // Clear 3D buffer with transparency
+    grfx3D.clear();
+
+    grfx3D.push();
+
+    if (mouseIsPressed) {
+        if (mouseButton === LEFT) {
+            cube.x += mouseX - pmouseX;
+            cube.y += mouseY - pmouseY;
+        }
+        if (mouseButton === RIGHT) {
+            cube.z += mouseY - pmouseY;
+        }
+    } else {
+        cube.rotation.y += (mouseX - pmouseX) / 60;
+        cube.rotation.z += (mouseY - pmouseY) / 60;
+    }
+
+    // WEBGL origin is center
+    grfx3D.translate(
+        cube.x - width / 2,
+        cube.y - height / 2,
+        cube.z
+    );
+
+    grfx3D.rotateY(cube.rotation.y);
+    grfx3D.rotateZ(cube.rotation.z);
+
+    grfx3D.fill(200);
+    grfx3D.stroke(50);
+    grfx3D.box(100, 50, 50);
+
+    grfx3D.pop();
+
+    // Composite 3D buffer onto 2D canvas
+    image(grfx3D, 0, 0);
+}
+
+// Prevent browser context menu on right-click
+function mousePressed() {
+    return false;
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+
+
+</script>
+
+</body>
+</html>

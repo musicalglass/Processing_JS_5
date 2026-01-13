@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Fun with For Loops</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+function setup() {
+  createCanvas(400, 400);
+  angleMode(DEGREES);
+
+  stroke(0, 0, 0, 128);
+  strokeWeight(3);
+
+  background(255); // optional, so you see everything clearly
+
+  // --- Draw Red Triangle at origin ---
+  fill(255, 0, 0);
+  triangle(0, 0, 0, 48, 40, 26);
+
+  // --- Orange Hexaflexagon ---
+  push();
+  fill(255, 127, 0);
+  translate(106, 108);
+  for (let t = 0; t < 6; t++) {
+    triangle(0, 0, 0, 48, 40, 26);
+    rotate(60);
+  }
+  pop();
+
+  // --- Vertical Row of Yellow Hexaflexagons ---
+  push();
+  fill(255, 255, 0);
+  translate(30, 67);
+  scale(0.3, 0.3);
+
+  for (let i = 0; i < 10; i++) {
+    push();
+    for (let t = 0; t < 6; t++) {
+      triangle(0, 0, 0, 48, 40, 26);
+      rotate(60);
+    }
+    pop();
+    translate(0, 110);
+  }
+  pop();
+
+  // --- Green Hexaflexagon Sequence (left to right) ---
+  push();
+  fill(0, 255, 0);
+  scale(0.4, 0.4);
+  translate(55, 70);
+
+  for (let hexX = 1; hexX <= 6; hexX++) {
+    push();
+    translate(hexX * 140, 0);
+
+    // draw a full hex each time (6 triangles)
+    for (let t = 0; t < 6; t++) {
+      triangle(0, 0, 0, 48, 40, 26);
+      rotate(60);
+    }
+
+    pop();
+  }
+  pop();
+
+  // --- Magenta HexaflexaCircle ---
+  push();
+  fill(255, 0, 255);
+  translate(250, 250);
+  scale(0.25, 0.25);
+
+  for (let i = 0; i < 24; i++) {
+    rotate(15);
+    push();
+    translate(0, 493);
+    for (let t = 0; t < 6; t++) {
+      triangle(0, 0, 0, 48, 40, 26);
+      rotate(60);
+    }
+    pop();
+  }
+  pop();
+
+  // --- Conditional-offset grid ---
+  push();
+  translate(180, 180);
+  scale(0.2, 0.2);
+
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 10; j++) {
+      fill(i * 50, random(0, 255), j * 36);
+
+      push();
+
+      // even rows offset 0, odd rows offset 43
+      let conditionalOffset = (j % 2 === 0) ? 0 : 43;
+      translate(conditionalOffset, 0);
+
+      for (let t = 0; t < 6; t++) {
+        triangle(0, 0, 0, 48, 40, 26);
+        rotate(60);
+      }
+
+      pop();
+      translate(0, 77);
+    }
+    translate(90, -770);
+  }
+  pop();
+}
+
+function draw() {
+  // no animation here; everything drawn once in setup()
+}
+
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

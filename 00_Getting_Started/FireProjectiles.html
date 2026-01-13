@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Fire Projectiles (Spawning)</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+var bullets = [];          // Array to store projectiles
+var BULLET_SPEED = 12.0;
+
+function setup() {
+	describe('Spawning objects using an Array.');
+
+	createCanvas(400, 400);
+	background(255);
+}
+
+// ----------------------------------------
+// Begin Game Loop
+// ----------------------------------------
+function draw() {
+  noStroke();
+
+  // Background with transparency (motion blur)
+  fill(8, 36, 5, 85);
+  rect(0, 0, width, height);
+
+  // Paddle centered on mouseX
+  fill(124, 0, 255);
+  rect(mouseX - 40, 356, 80, 16);
+
+  // Update & draw bullets
+  updateBullets(bullets);
+  drawBullets(bullets);
+}
+
+// Each time the mouse is clicked, spawn a bullet
+function mouseClicked() {
+  bullets.push({
+    x: mouseX,
+    y: 356
+  });
+}
+
+// Update bullet positions
+function updateBullets(b) {
+  for (var i = b.length - 1; i >= 0; i--) {
+    // If bullet reaches the top, remove it
+    if (b[i].y < 40) {
+      b.splice(i, 1);
+    } else {
+      b[i].y -= BULLET_SPEED;
+    }
+  }
+}
+
+// Draw bullets
+function drawBullets(b) {
+  strokeWeight(3);
+  stroke(255, 255, 0);
+  fill(255, 0, 0);
+
+  for (var i = 0; i < b.length; i++) {
+    ellipse(b[i].x, b[i].y, 7, 7);
+  }
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Sin & Cos Draw Loop Animated</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+var angle = 0.0; 
+
+var sinY, cosX;
+
+// how big the orbit is
+var radius = 160;
+
+function setup() {
+describe('Stripped down Sin & Cos for easy porting.');
+createCanvas(400, 400);
+}
+
+
+draw = function(){
+translate(200, 200);	// set 0,0 to screen center
+// Black backgrounds save power on handheld devices ;)
+background(0); // Clear the screen
+
+    // calculate coordinates of the orbit using sin and cos
+    sinY = (sin(angle) * radius);
+    cosX = (cos(angle) * radius);
+
+    strokeWeight(6);
+    // Draw Points
+    stroke(255, 127, 0); // Orange
+    point(cosX, 0); // Cos = x
+
+    stroke(0, 255, 0); // Green
+    point(0, sinY); // Sin = y
+
+    stroke(186, 0, 252); // The Color Purple
+    point(cosX, sinY); // Circular Orbit
+    strokeWeight(1);
+    line(0, 0, cosX, sinY); 
+
+// Update angle. This is what animates everything.
+angle += 0.04;
+// Keep angle within max radians
+	angle = angle % TWO_PI;
+};
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Quadrilateral Tool (p5.js)</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let centerOffset = 0;
+let offsetX = 0;
+let offsetY = 0;
+offsetX += centerOffset;
+offsetY += centerOffset;
+
+let lineThickness = 2;
+let dragCircles = [];
+
+// ----------------------------------------
+// Setup
+// ----------------------------------------
+function setup() {
+describe('Allows you to drag handles and prints code to the browser Console for drawing a Quadrilateral.');
+  createCanvas(400, 400);
+
+  createCircle(200, 120);
+  createCircle(250, 212);
+  createCircle(200, 270);
+  createCircle(150, 212);
+}
+
+// ----------------------------------------
+// Draw loop
+// ----------------------------------------
+function draw() {
+  background(255);
+
+  push();
+  translate(offsetX, offsetY);
+
+  drawGrid();
+  displayText();
+  drawDraggableCircles();
+
+  fill(0, 0, 255, 60);
+  strokeWeight(lineThickness);
+
+  quad(
+    dragCircles[0].x, dragCircles[0].y,
+    dragCircles[1].x, dragCircles[1].y,
+    dragCircles[2].x, dragCircles[2].y,
+    dragCircles[3].x, dragCircles[3].y
+  );
+
+  pop();
+}
+
+// ----------------------------------------
+// Create draggable handle
+// ----------------------------------------
+function createCircle(cX, cY) {
+  dragCircles.push({
+    x: cX,
+    y: cY,
+    circleSize: 12
+  });
+}
+
+// ----------------------------------------
+// Draw draggable handles
+// ----------------------------------------
+function drawDraggableCircles() {
+  strokeWeight(1);
+
+  for (let i = 0; i < dragCircles.length; i++) {
+    if (
+      dist(
+        dragCircles[i].x,
+        dragCircles[i].y,
+        mouseX - offsetX,
+        mouseY - offsetY
+      ) < dragCircles[i].circleSize / 1.5
+    ) {
+      fill(128, 0, 255, 120);
+    } else {
+      noFill();
+    }
+
+    ellipse(
+      dragCircles[i].x,
+      dragCircles[i].y,
+      dragCircles[i].circleSize,
+      dragCircles[i].circleSize
+    );
+  }
+}
+
+// ----------------------------------------
+// Mouse interaction
+// ----------------------------------------
+function mouseDragged() {
+  for (let i = 0; i < dragCircles.length; i++) {
+    if (
+      dist(
+        dragCircles[i].x,
+        dragCircles[i].y,
+        mouseX - offsetX,
+        mouseY - offsetY
+      ) < dragCircles[i].circleSize / 1.5
+    ) {
+      dragCircles[i].x = mouseX - offsetX;
+      dragCircles[i].y = mouseY - offsetY;
+    }
+  }
+
+  let s =
+    "Copy text here :)\n\nquad(" +
+    dragCircles[0].x + ", " + dragCircles[0].y + ", " +
+    dragCircles[1].x + ", " + dragCircles[1].y + ", " +
+    dragCircles[2].x + ", " + dragCircles[2].y + ", " +
+    dragCircles[3].x + ", " + dragCircles[3].y +
+    ");\n\n";
+
+  console.log(s);
+}
+
+// ----------------------------------------
+// Grid + axis labels
+// ----------------------------------------
+function displayText() {
+  textSize(12);
+  fill(0, 0, 0, 100);
+
+  // Y Axis
+  text("Y", 5, 50);
+  for (let y = 100; y <= 350; y += 50) {
+    text(y, 5, y);
+  }
+
+  // X Axis
+  text("X", 50, 15);
+  for (let x = 100; x <= 350; x += 50) {
+    text(x, x, 15);
+  }
+
+  stroke(0);
+}
+
+function drawGrid() {
+  strokeWeight(1);
+  stroke(0, 0, 0, 160);
+
+  // Axis lines
+  line(0, -400, 0, 400);
+  line(-400, 0, 400, 0);
+
+  // Grid
+  stroke(0, 100, 255, 75);
+  for (let i = -400; i < 400; i += 10) {
+    line(i, -400, i, 400);
+    line(-400, i, 400, i);
+  }
+}
+</script>
+
+</body>
+</html>

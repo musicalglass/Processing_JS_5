@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Sin & Cos</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+
+const rotationSpeed = 0.03;
+const radius = 120;	// how big the orbit is
+var angle = 0.0; 
+var sinY, cosX;
+
+function setup() {
+describe('Using Sin & Cos to animate Eliptical or Parabolic motion.');
+createCanvas(400, 400);
+textSize(16); 
+}
+
+draw = function(){
+	background(0); 
+	// Move 0,0 to screen center
+	translate(200, 200); 
+	// calculate coordinates of the orbit using sin and cos
+    sinY = (sin(angle) * radius);
+    cosX = (cos(angle) * radius);
+
+    // Update angle
+    angle += rotationSpeed; 
+    
+    // Keep angle within max radians
+    // Wrap at 2π, not 360 degrees
+	angle = angle % TWO_PI;
+
+    // Draw Circles
+    noFill(); 
+    strokeWeight(4); 
+
+    stroke(186, 0, 252); // The Color Purple
+    ellipse(cosX, sinY, 60, 60); // Circular Orbit
+    strokeWeight(2);
+    line(0, 0, cosX, sinY);
+    
+    stroke(0, 255, 0); // Green
+    ellipse(0, sinY, 60, 34); // Sin = y
+    
+    stroke(255, 127, 0); // Orange
+    ellipse(cosX, 0, 60, 34); // Cos = x
+    
+    // Draw Text
+	strokeWeight(0);	
+    fill(186, 0, 252); // Purple
+    text("angle in Radians: "+ angle,-160, -175);
+    text("both",cosX - 16, sinY + 6);
+    
+    fill(0, 255, 0); // Green
+    text("sin",-11, sinY + 4);
+    text("sin * radius: "+ sinY,-160, -158);
+
+    fill(255, 127, 0); // Orange
+    text("cos",cosX-13, 4);
+    text("cos * radius: "+ cosX,-160, -141);
+}; 
+
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Passing Arguments to a Function</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+// So you can think in seconds instead of FPS
+let framesPerSecond = 60;
+
+// Manual timer (replaces writable frameCount)
+let t = 0;
+
+function setup() {
+describe('Passing Arguments to a Function.');
+createCanvas(400, 400);
+frameRate(60);
+}
+
+// Begin Game Loop. 
+function draw() {
+  background(0); // Clear screen
+
+  t++; // advance timer
+
+  textSize(12);
+  fill(255);
+  text("Frame Count: " + t, 10, 30);
+
+  textSize(36);
+
+  if (t > framesPerSecond * 3 &&
+      t < framesPerSecond * 7) {
+    text("In the beginning..", 60, 150);
+  }
+
+  if (t > framesPerSecond * 9 &&
+      t < framesPerSecond * 15) {
+    text("there was nothing...", 46, 150);
+  }
+
+  if (t > framesPerSecond * 17 &&
+      t < framesPerSecond * 21) {
+    text("which exploded!", 65, 150);
+  }
+
+  if (t > framesPerSecond * 23) {
+    textSize(24);
+    text("Tutorials in plain English", 79, 150);
+    text("by Dillinger", 144, 185);
+  }
+
+  // Loop animation
+  if (t > 1600) {
+    t = 0;
+  }
+} // end Game Loop
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

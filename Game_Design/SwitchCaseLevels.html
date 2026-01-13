@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Switch Case Levels</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+/** <Description>
+ * Use Switch to flip between different Case Statements.
+ * Also known as a "State Machine"
+ * Click to start, then press 1,2,3,4... etc.
+</Description> */
+
+let gameState = "Intro";
+let lastKeyCode = null;
+
+function setup() {
+  createCanvas(400, 400);
+  textSize(18);
+}
+
+function keyPressed() {
+  lastKeyCode = keyCode; // capture the most recent key press
+}
+
+function draw() {
+  background(0);
+
+  switch (gameState) {
+    case "Intro":
+      fill(127, 0, 255);
+      text("Welcome to myGameName\n\nClick the Game Window to Begin", 66, 154);
+      if (mouseIsPressed) {
+        gameState = "Main";
+      }
+      break;
+
+    case "Main":
+      fill(0, 0, 255);
+      text("Game Code Goes Here\n\nPress 1 to proceed a level", 90, 100);
+      if (lastKeyCode === 49) { // '1'
+        gameState = 1;
+      }
+      break;
+
+    case 1:
+      fill(255, 127, 0);
+      text("Level 1 Code\n\nPress 2 to proceed a level", 90, 100);
+      if (lastKeyCode === 50) { // '2'
+        gameState += 1;
+      }
+      break;
+
+    case 2:
+      fill(0, 255, 0);
+      text("Level 2 Code\n\nPress 3 to proceed a level", 90, 100);
+      if (lastKeyCode === 51) { // '3'
+        gameState += 1;
+      }
+      break;
+
+    case 3:
+      fill(255, 255, 0);
+      text("Level 3 Code\n\nPress 4 to proceed a level", 90, 100);
+      if (lastKeyCode === 52) { // '4'
+        gameState += 1; // will fall into default next
+      }
+      break;
+
+    default:
+      fill(255, 0, 0);
+      text("Game Over\n\nPress the Left Arrow Key\nto start over", 90, 103);
+      if (lastKeyCode === LEFT_ARROW) {
+        gameState = "Main";
+      }
+      break;
+  }
+
+  // reset the one-shot key press so it doesn't repeat forever
+  lastKeyCode = null;
+}
+
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

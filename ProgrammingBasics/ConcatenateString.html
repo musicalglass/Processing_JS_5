@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Concatenate a String</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+/*<Description> Concatenate a String and Print it to the Screen. </Description>*/ 
+
+var myPossesion = true; // <-- change value to change output
+var mySubject = "This "; 
+var myPredicate = ""; 
+var myObject = "mine!"; 
+
+function setup() {
+	describe('Changing a value true or false changes the String text.');
+
+	createCanvas(400, 400);
+	background(255);
+
+	var myString = ""; 
+	if(myPossesion){ myPredicate = "is "; } 
+	else{ myPredicate = "is not "; } 
+
+	fill(0); 
+	textSize(24); 
+	myString = mySubject + myPredicate + myObject; 
+	text(myString,100,100); 
+}
+  
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

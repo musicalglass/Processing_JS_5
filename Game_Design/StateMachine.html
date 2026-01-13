@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>State Machine</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+/* <Description>
+   A State Machine allows you to change different parameters of your game
+   depending on its current "State". Useful for creating Levels.
+</Description> */
+
+// The Starting State of the Game
+let gameState = "Intro";
+
+// Store button data (array so you can add more later)
+let myButton = [
+  { x: 170, y: 180, w: 60, h: 40 }
+];
+
+// Prevents multi-advance on one click
+let buttonClicked = false;
+
+function setup() {
+  createCanvas(400, 400);
+  textSize(16);
+}
+
+function updateButton(b) {
+  const btn = b[0];
+
+  const hover =
+    mouseX > btn.x &&
+    mouseX < btn.x + btn.w &&
+    mouseY > btn.y &&
+    mouseY < btn.y + btn.h;
+
+  if (hover) {
+    fill(255, 64, 64); // rollover color
+
+    if (mouseIsPressed) {
+      buttonClicked = true;
+      fill(0, 255, 0); // pressed color
+      btn.x = 173;
+      btn.y = 183;
+    } else {
+      btn.x = 170;
+      btn.y = 180;
+    }
+  } else {
+    fill(255, 0, 0); // idle color
+    btn.x = 170;
+    btn.y = 180;
+  }
+}
+
+function drawButton(b) {
+  const btn = b[0];
+
+  rect(btn.x, btn.y, btn.w, btn.h);
+  fill(255);
+  text("Start", btn.x + 14, btn.y + 25);
+}
+
+function draw() {
+  background(0);
+
+  // IMPORTANT: reset *once per frame*, but do NOT force-move the button here.
+  // Let updateButton decide pressed/idle offsets.
+  buttonClicked = false;
+
+  switch (gameState) {
+    case "Intro":
+      fill(255, 0, 0);
+      text("Welcome to", 160, 60);
+      text("The Name of the Game", 120, 89);
+
+      updateButton(myButton);
+      drawButton(myButton);
+
+      if (buttonClicked) {
+        gameState = "Main";
+      }
+      break;
+
+    case "Main":
+      fill(255, 0, 0);
+      text("Game Code Goes Here", 120, 100);
+      text("Press the Enter Key to end Game", 80, 154);
+
+      if (keyIsPressed && keyCode === ENTER) {
+        gameState = "GameOver";
+      }
+      break;
+
+    default: // GameOver
+      fill(255, 0, 0);
+      text("Game Over", 160, 103);
+
+      updateButton(myButton);
+      drawButton(myButton);
+
+      if (buttonClicked) {
+        gameState = "Main";
+      }
+      break;
+  }
+}
+
+/* Tutorials in plain English by Dillinger © 2025 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

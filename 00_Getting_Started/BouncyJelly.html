@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Processing 5 Example</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body>
+
+<script>
+let eyesBlink;
+let angle = 0;
+
+let sinY;
+let dubBounce;
+
+// how big the orbit is
+let radius = 20;
+
+// custom blink timer (replaces frameCount hack)
+let blinkTimer = 0;
+
+function setup() {
+describe('bezierVertex with Sin Animation applied to X & Y of End Points & Handles.');
+	createCanvas(400, 400);
+	angleMode(DEGREES);
+	frameRate(30);
+}
+
+function draw() {
+  background(0);
+
+  // Move 0,0 to screen center
+  push();
+  translate(width / 2, height / 2);
+
+  fill(183, 0, 255);
+  stroke(168, 0, 201);
+  strokeWeight(7);
+
+  // calculate coordinates of the sway using sin
+  sinY = sin(angle) * radius;
+
+  // optional alternate bounce
+  // sinY = cos(angle) * radius;
+
+  // double-frequency bounce
+  dubBounce = (sinY * sin(angle)) * 2;
+
+  // Body shape
+  beginShape();
+  vertex(sinY, dubBounce - 70);
+  bezierVertex(sinY + 54, dubBounce - 70, 90, 64, 0, 64);
+  bezierVertex(-90, 64, sinY - 54, dubBounce - 70, sinY, dubBounce - 70);
+  endShape();
+
+  // Eyes
+  strokeWeight(2);
+  stroke(0);
+  fill(255);
+
+  // Random blink trigger
+  if (blinkTimer <= 0) {
+    eyesBlink = floor(random(120, 340));
+    blinkTimer = eyesBlink;
+  }
+
+  blinkTimer--;
+
+  if (blinkTimer < 6) {
+    // blink
+    ellipse(sinY - 20, dubBounce - 34, 26, 2);
+    ellipse(sinY + 20, dubBounce - 34, 26, 2);
+  } else {
+    // open eyes
+    ellipse(sinY - 20, dubBounce - 34, 26, 20);
+    ellipse(sinY + 20, dubBounce - 34, 26, 20);
+
+    strokeWeight(7);
+    point(sinY + 20, dubBounce - 34);
+    point(sinY - 20, dubBounce - 34);
+  }
+
+  pop();
+
+  // Update angle (this animates everything)
+  angle += 11;
+  angle %= 360;
+}
+
+/* Tutorials in plain English by Dillinger © 2025. 
+All code is owned by its respective author and 
+made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+</script>
+
+</body>
+</html>

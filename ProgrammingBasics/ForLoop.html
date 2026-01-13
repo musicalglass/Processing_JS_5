@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>For Loop</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+
+function setup() {
+	describe('Use a For Loop to draw a Row of Rectangles.');
+
+	createCanvas(400, 400);
+
+	// Define distance between Rectangles
+	var DISTANCE_APART = 40;
+
+	//For( startValue; While True; Increment Value )
+	//Starting at 0; Until it reaches 10; Add 1 each loop 
+	for(var i = 0; i < 10; i = i + 1){
+		rect(i * DISTANCE_APART, 100 , 20, 20);
+	}
+}
+  
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>

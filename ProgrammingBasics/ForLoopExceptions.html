@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>For Loop Exceptions</title>
+  <script src="../p5.min.js"></script>
+</head>
+<body bgcolor="#999999">
+
+<script>
+
+function setup() {
+	describe('Using Break and Continue commands to isolate conditions within a For Loop.');
+
+	createCanvas(400, 400);
+	textSize(24);
+
+	// This For Loop would normally increment the value by 1 until it reaches 20, no problemo
+	for (var i = 0 ; i <= 20; i++){
+
+		// If this value is in the batch...
+		if (i === 10){ 
+			break; // forget the whole thing
+		}
+
+	   // If this For Loop Variable is divisable by 2...
+		if (i % 2 === 0){
+			continue; // skip this one
+		}
+
+	var lineHeight = 20; // Distance between lines of text
+	var offsetY = 40; // Distance from top of page
+	fill(0); // color(greyscale)
+
+	// Print the value of i ( unless otherwise specified )
+		text(i, 100 , i * lineHeight + offsetY);
+	}
+}
+  
+/* Tutorials in plain English by Dillinger © 2026 
+All code is owned by its respective author 
+and made available under an MIT license:
+http://opensource.org/licenses/mit-license.php */
+
+</script>
+
+</body>
+</html>
